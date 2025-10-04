@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->string('total_price');
             $table->date('date_close');
-            $table->date('warehouse_name');
+            $table->string('warehouse_name');
             $table->integer('nm_id');
             $table->timestamps();
         });
