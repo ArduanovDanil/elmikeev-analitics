@@ -19,5 +19,10 @@ class Income extends Model
     protected $warehouseName;
     protected $nmId;
 
+    protected $guarded = [];
+
+    
+
+
 
 }
