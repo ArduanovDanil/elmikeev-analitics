@@ -4,10 +4,7 @@ namespace App\Console\Commands\ParseApi;
 
 use App\Jobs\IncomeJob;
 use App\Models\Income as IncomeModel;
-use Faker\Core\Barcode;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use DateTime;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
