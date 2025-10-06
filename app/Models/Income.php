@@ -22,7 +22,7 @@ class Income extends Model
     protected $guarded = [];
 
     
-
+    
 
 
 }

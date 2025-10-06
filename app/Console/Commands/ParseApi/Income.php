@@ -2,12 +2,24 @@
 
 namespace App\Console\Commands\ParseApi;
 
+use App\Jobs\IncomeJob;
 use App\Models\Income as IncomeModel;
 use Faker\Core\Barcode;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
+use DateTime;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class Income extends Command
 {
+
+    protected string $key = 'E6kUTYrYwZq2tN4QEtyzsbEBk3ie';
+    protected string $url = 'http://109.73.206.144:6969/api/incomes';
+    protected int $limit = 500;
+
+    protected int $pageStart = 1;
+
     /**
      * The name and signature of the console command.
      *
@@ -28,27 +40,28 @@ class Income extends Command
     public function handle()
     {
 
-        $newIncome = IncomeModel::create(
-            [
-                'income_id' => 123,
-                'number' => 55443,
-                'date' => now(),
-                'last_change_date' => now(),
-                'supplier_article' => 'f4flf23498fs9f8s',
-                'tech_size' => '66e7dff9f98764da',
-                'barcode' => 12313,
-                'quantity' => 0,
-                'total_price' => 0,
-                'date_close' => now(),
-                'warehouse_name' => 'Электросталь',
-                'nm_id' => 234442,
-            ]
-        );
+        $lastIncomeModel = IncomeModel::orderByDesc('date')->first();
+        
+        $dateFrom = $lastIncomeModel->date ?? Carbon::createFromTimestamp(0)->toDateString();
+        $dateTo = date('Y-m-d');
 
+        $url = 'http://109.73.206.144:6969/api/incomes';
+        $query = [
+            'dateFrom' => $dateFrom,
+            'dateTo' => $dateTo,
+            'page' => $this->pageStart,
+            'key' => $this->key,
+            'limit' => $this->limit,
+        ];
 
-        dd($newIncome);
+        $response = Http::acceptJson()->get($this->url, $query);
+        
+        $pagesCount = $response->json('meta.last_page');
 
-        $income = IncomeModel::all();
-        dd($income);
+        for ($page = 1; $page <= $pagesCount; $page++)
+        {
+            IncomeJob::dispatch($url, $query, $page)->delay(now()->addSeconds($page * 2));
+        }
+
     }
 }

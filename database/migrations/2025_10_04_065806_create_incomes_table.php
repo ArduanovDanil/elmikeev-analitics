@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('incomes', function (Blueprint $table) {
             $table->id();
             $table->integer('income_id');
-            $table->integer('number');
+            $table->integer('number')->nullable();
             $table->date('date');
             $table->date('last_change_date');
             $table->string('supplier_article');
