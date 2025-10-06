@@ -45,7 +45,6 @@ class Income extends Command
         $dateFrom = $lastIncomeModel->date ?? Carbon::createFromTimestamp(0)->toDateString();
         $dateTo = date('Y-m-d');
 
-        $url = 'http://109.73.206.144:6969/api/incomes';
         $query = [
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
@@ -60,7 +59,7 @@ class Income extends Command
 
         for ($page = 1; $page <= $pagesCount; $page++)
         {
-            IncomeJob::dispatch($url, $query, $page)->delay(now()->addSeconds($page * 2));
+            IncomeJob::dispatch($this->url, $query, $page)->delay(now()->addSeconds($page * 2));
         }
 
     }
