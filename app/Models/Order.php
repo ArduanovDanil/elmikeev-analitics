@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Jobs\OrderJob;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    const PARSE_API_JOB = OrderJob::class;
+    
     protected $gNumber;
     protected $date;
     protected $lastChangeDate;

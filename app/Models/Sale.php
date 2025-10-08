@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Jobs\SaleJob;
 use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
 {
+    const PARSE_API_JOB = SaleJob::class;
+    
     protected $gNumber;
     protected $date;
     protected $lastChangeDate;
