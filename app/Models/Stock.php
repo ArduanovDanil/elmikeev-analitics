@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use App\Jobs\StockJob;
 use Illuminate\Database\Eloquent\Model;
 
 class Stock extends Model
 {
-    const PARSE_API_JOB = StockJob::class;
-
     protected $date;
     protected $lastChangeDate;
     protected $supplierArticle;
