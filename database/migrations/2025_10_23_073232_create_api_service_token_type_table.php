@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('api_services_token_types', function (Blueprint $table) {
+        Schema::create('api_service_token_type', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('api_service_id');
             $table->unsignedBigInteger('token_type_id');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('api_services_token_types');
+        Schema::dropIfExists('api_service_token_type');
     }
 };
