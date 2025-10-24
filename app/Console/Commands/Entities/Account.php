@@ -27,13 +27,8 @@ class Account extends Command
      */
     public function handle()
     {
-
         $companyName = $this->option('company_name');
         $companyId = (int) $this->option('company_id');
-           
-
-        //var_dump($companyId);
-        //dd(77777);
 
         if ($companyId && $companyName) {
             $this->error("Don't use company name and company id at the same time");
