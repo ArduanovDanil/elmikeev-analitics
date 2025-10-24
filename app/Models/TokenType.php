@@ -11,7 +11,11 @@ class TokenType extends Model
     protected $id;
     protected $name;
 
+    public $timestamps = false;
+
     protected $guarded = [];
+
+ 
 
     public function token(): BelongsTo
     {
