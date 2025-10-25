@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
 {
-    protected $id;
-    protected $name;
-
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'name',
+    ];
 
     public function accounts(): HasMany
     {

@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ApiService extends Model
 {
-    protected $id;
-    protected $name;
-    
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'name',
+    ];
 
     public function tokenType(): BelongsToMany
     {
