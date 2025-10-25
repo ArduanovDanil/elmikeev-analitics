@@ -14,6 +14,7 @@ class SaleParseService extends BaseParseService
 
     public function __construct()
     {
+        parent::__construct();
         $this->url = $this->apiUrl . 'sales';
     }
 

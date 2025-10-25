@@ -4,6 +4,8 @@ namespace App\Services\ParseApi;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 abstract class BaseParseService
 {
@@ -16,21 +18,27 @@ abstract class BaseParseService
     protected string $modelClass;
     protected string $jobClass;
 
+    protected ConsoleOutput $consoleOutput;
+
     protected int $limit = 500;
     protected int $pageStart = 1;
 
     public function __construct()
     {
-        
+        $this->consoleOutput = new ConsoleOutput();
     }
 
     public function parse()
     {
+        $this->consoleOutput->writeln('Start parsing ' . $this->modelClass);
 
         $lastRecord = $this->modelClass::orderByDesc('date')->first();
         
         $dateFrom = $lastRecord->date ?? Carbon::createFromTimestamp(0)->toDateString();
         $dateTo = date('Y-m-d');
+
+        Log::info('Parse from {dateFrom} to {dateTo}', ['dateFrom' => $dateFrom, 'dateTo' => $dateTo]);
+        $this->consoleOutput->writeln("Parse from {$dateFrom} to {$dateTo}");
 
         $query = [
             'dateFrom' => $dateFrom,
@@ -41,8 +49,14 @@ abstract class BaseParseService
         ];
 
         $response = Http::acceptJson()->get($this->url, $query);
-        
+
+        Log::info('Response status from api service = ' . $response->status());
+        $this->consoleOutput->writeln("Response status from api service = {$response->status()}");
+
         $pagesCount = $response->json('meta.last_page');
+
+        Log::info('Pages count for parsing = ' . $pagesCount);
+        $this->consoleOutput->writeln("Pages count for parsing = {$pagesCount}");
 
         for ($page = 1; $page <= $pagesCount; $page++)
         {
