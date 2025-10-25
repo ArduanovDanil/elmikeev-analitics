@@ -16,11 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('token_type_id');
             $table->unsignedBigInteger('account_id');
             $table->string('value');
-            $table->json('attributes');
+            $table->json('attributes')->nullable();
             $table->timestamps();
 
             $table->foreign('token_type_id')->references('id')->on('token_types')->onDelete('cascade');
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+
+            $table->unique(['token_type_id', 'account_id']);
         });
     }
 
