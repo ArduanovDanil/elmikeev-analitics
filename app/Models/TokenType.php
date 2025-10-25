@@ -3,23 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TokenType extends Model
 {
-    protected $id;
-    protected $name;
-
     public $timestamps = false;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'name',
+    ];
 
  
-
-    public function token(): BelongsTo
+    public function tokens(): HasMany
     {
-        return $this->belongsTo(Token::class);
+        return $this->hasMany(Token::class);
     }
 
     public function apiServices() : BelongsToMany

@@ -3,24 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Token extends Model
 {
-    protected $id;
-    protected $value;
-    protected $attributes;
+    protected $fillable = [
+        'id',
+        'token_type_id',
+        'account_id',
+        'value',
+        'attributes',
+    ];
 
-    protected $guarded = [];
-
-    public function account(): HasOne
+    public function account(): BelongsTo
     {
-        return $this->hasOne(Account::class);
+        return $this->belongsTo(Account::class);
     }
 
-    public function tokenType(): HasOne
+    public function tokenType(): BelongsTo
     {
-        return $this->hasOne(TokenType::class);
+        return $this->belongsTo(TokenType::class);
     }
 
 }

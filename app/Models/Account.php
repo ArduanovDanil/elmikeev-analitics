@@ -4,23 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Account extends Model
 {
-    protected $id;
-    protected $name;
-
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'company_id',
+        'name,'
+    ];
 
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function token(): BelongsTo
+    public function tokens(): HasMany
     {
-        return $this->belongsTo(Token::class);
+        return $this->hasMany(Token::class);
     }
-
 
 }

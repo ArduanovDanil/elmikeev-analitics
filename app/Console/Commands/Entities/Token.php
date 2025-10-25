@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use App\Models\Account;
 use App\Models\Token as TokenModel;
 use App\Models\TokenType;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 
 class Token extends Command
@@ -29,12 +31,12 @@ class Token extends Command
      */
     public function handle()
     {
-        $token = $this->option('value');
+        $value = $this->option('value');
         $tokenTypeName = $this->option('token_type_name');
         $tokenTypeId = (int) $this->option('token_type_id');
         $accountId = (int) $this->option('account_id');
 
-        if (!$token) {
+        if (!$value) {
             $this->error('"value" option required');
             return 1;
         }
@@ -75,16 +77,20 @@ class Token extends Command
             return 1;
         }
 
-        //TODO Need fixed
-        // TokenModel::create([
-        //     'value' => $token,
-        //     'token_type_id' => $tokenType->id,
-        //     'account_id' => $account->id,
-        // ]);
+        try {
+            DB::transaction(function() use($value, $account, $tokenType) {
+                $token = new TokenModel();
+                $token->value = $value;
+                $token->account()->associate($account);
+                $token->tokenType()->associate($tokenType);
+                $token->save();
+            });
 
-        // $this->info('Token created');
+        } catch(Exception $e) {
+            $this->error('Error when create token: ' . $e->getMessage());
+            return 1;
+        }
 
-
-
+         $this->info('Token created');
     }
 }
