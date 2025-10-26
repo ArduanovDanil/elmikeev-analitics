@@ -24,4 +24,9 @@ class Account extends Model
         return $this->hasMany(Token::class);
     }
 
+    public function incomes(): HasMany
+    {
+        return $this->hasMany(Income::class);
+    }
+
 }
