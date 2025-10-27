@@ -24,7 +24,7 @@ class StockParseService extends BaseParseService
     {
         $this->consoleOutput->writeln('Start parsing ' . $this->modelClass);
 
-        $lastRecord = $this->modelClass::orderByDesc('date')->first();
+        $lastRecord = $this->modelClass::where('account_id', $this->account->id)->orderByDesc('date')->first();
         
         $dateFrom = $lastRecord->date ?? date('Y-m-d');
 
