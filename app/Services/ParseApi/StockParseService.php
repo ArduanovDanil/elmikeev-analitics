@@ -6,6 +6,7 @@ use App\Models\Stock;
 use App\Jobs\StockJob;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Models\Account;
 
 
 class StockParseService extends BaseParseService
@@ -13,9 +14,9 @@ class StockParseService extends BaseParseService
     protected string $modelClass = Stock::class;
     protected string  $jobClass = StockJob::class;
 
-    public function __construct()
+    public function __construct(Account $account)
     {
-        parent::__construct();
+        parent::__construct($account);
         $this->url = $this->apiUrl . 'stocks';
     }
 
@@ -49,7 +50,7 @@ class StockParseService extends BaseParseService
 
         for ($page = 1; $page <= $pagesCount; $page++)
         {
-            $this->jobClass::dispatch($this->url, $query, $page)->delay(now()->addSeconds($page * 2));
+            $this->jobClass::dispatch($this->url, $query, $page, $this->account)->delay(now()->addSeconds($page * 2));
         }
 
     }

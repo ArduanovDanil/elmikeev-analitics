@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Account;
 use Illuminate\Console\Command;
 use App\Services\ParseApi\IncomeParseService;
 use App\Services\ParseApi\OrderParseService;
@@ -24,7 +25,7 @@ class ParseApi extends Command
      *
      * @var string
      */
-    protected $signature = 'app:parse-api {--endpoint=}';
+    protected $signature = 'app:parse-api {--endpoint=} {--account_id=}';
 
     /**
      * The console command description.
@@ -39,9 +40,15 @@ class ParseApi extends Command
     public function handle()
     {
         $endpoint = $this->option('endpoint');
+        $accountId = $this->option('account_id');
 
         if (!$endpoint) {
             $this->error('Option "endpoint" is required');
+            return 1;
+        }
+
+        if (!$accountId) {
+            $this->error('Option "account_id" is required');
             return 1;
         }
 
@@ -50,9 +57,19 @@ class ParseApi extends Command
             return 1;
         }
 
-        Log::info('Start parsing ' . $endpoint);
+        $account = Account::find($accountId);
 
-        $parseService = new (self::ENDPOINTS[$endpoint]);
+        if (!$account) {
+            $this->error('Invalid "account_id" option');
+            return 1;
+        }
+
+        $logMessage = "Start parsing {$endpoint} with account_id = {$account->id}";
+        Log::info($logMessage);
+        $this->info($logMessage);
+
+        $parseService = new (self::ENDPOINTS[$endpoint])($account);
+
         $parseService->parse();
 
     }

@@ -24,7 +24,7 @@ class Token extends Command
      *
      * @var string
      */
-    protected $description = 'Add account';
+    protected $description = 'Add token';
 
     /**
      * Execute the console command.

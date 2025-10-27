@@ -2,6 +2,7 @@
 
 namespace App\Services\ParseApi;
 
+use App\Models\Account;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -19,13 +20,15 @@ abstract class BaseParseService
     protected string $jobClass;
 
     protected ConsoleOutput $consoleOutput;
+    protected Account $account;
 
     protected int $limit = 500;
     protected int $pageStart = 1;
 
-    public function __construct()
+    public function __construct(Account $account)
     {
         $this->consoleOutput = new ConsoleOutput();
+        $this->account = $account;
     }
 
     public function parse()
@@ -60,7 +63,7 @@ abstract class BaseParseService
 
         for ($page = 1; $page <= $pagesCount; $page++)
         {
-            $this->jobClass::dispatch($this->url, $query, $page)->delay(now()->addSeconds($page * 2));
+            $this->jobClass::dispatch($this->url, $query, $page, $this->account)->delay(now()->addSeconds($page * 2));
         }
     }
 
