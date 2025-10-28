@@ -19,6 +19,7 @@ class StockJob extends BaseJob implements ShouldQueue
 
         foreach ($data as $item)
         {
+            $item['account_id'] = $this->account->id;
             Stock::create($item);
         }
     }

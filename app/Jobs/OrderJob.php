@@ -19,6 +19,7 @@ class OrderJob extends BaseJob implements ShouldQueue
 
         foreach ($data as $item)
         {
+            $item['account_id'] = $this->account->id;
             Order::create($item);
         }
 
