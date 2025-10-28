@@ -18,7 +18,7 @@ class ApiServiceFactory extends Factory
     {
 
         return [
-            'name' => fake()->colorName(),
+            'name' => 'api service' . fake()->company(),
         ];
     }
 }
