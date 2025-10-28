@@ -9,6 +9,11 @@ URL: https://free21.beget.com/phpMyAdmin/db_structure.php?server=1&db=d91970m6_w
 ## Таблицы БД
 incomes, orders, sales, stocks
 
-### TODO
-Убрать в конфиг url, токен  
-Команды объединить в одну с разными опциями
+## Запуск проекта
+- Склонировать репозиторий
+- Выполнить  `composer install`
+- Скопировать в корне проекта файл `.env.example` в `.env`
+- Запустить приложение командой `./vendor/bin/sail up`
+- Создать ключ приложения через `./vendor/bin/sail artisan key:generate`
+- Запустить миграции `./vendor/bin/sail artisan migrate`
+- Запустить заполнение БД `./vendor/bin/sail artisan db:seed`
