@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account;
 use App\Models\Company;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,6 +14,8 @@ class CompanySeeder extends Seeder
      */
     public function run(): void
     {
-        Company::factory()->count(10)->create();
+        Company::factory(10)
+        ->has(Account::factory()->count(3))
+        ->create();
     }
 }
