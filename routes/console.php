@@ -9,4 +9,8 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 
-Schedule::command('app:parse-api --endpoint=sales')->everyFiveMinutes();
+Schedule::command('app:parse-api --endpoint=incomes --account_id=1')->twiceDaily();
+Schedule::command('app:parse-api --endpoint=orders --account_id=1')->twiceDaily();
+Schedule::command('app:parse-api --endpoint=sales --account_id=1')->twiceDaily();
+Schedule::command('app:parse-api --endpoint=stocks --account_id=1')->twiceDaily();
+
