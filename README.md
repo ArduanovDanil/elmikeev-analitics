@@ -16,7 +16,4 @@ incomes, orders, sales, stocks
 - Запустить приложение командой `./vendor/bin/sail up`
 - Создать ключ приложения через `./vendor/bin/sail artisan key:generate`
 - Запустить миграции `./vendor/bin/sail artisan migrate`
-
-### TODO
-Убрать в конфиг url, токен  
-Команды объединить в одну с разными опциями
+- Запустить заполнение БД `./vendor/bin/sail artisan db:seed`
