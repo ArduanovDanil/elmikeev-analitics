@@ -11,7 +11,15 @@ incomes, orders, sales, stocks
 
 ## Запуск проекта
 - Склонировать репозиторий
-- Выполнить  `composer install`
+- Выполнить 
+    ```
+    docker run --rm \
+    -u "$(id -u)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php84-composer:latest \
+    composer install
+    ```
 - Скопировать в корне проекта файл `.env.example` в `.env`
 - Запустить приложение командой `./vendor/bin/sail up`
 - Создать ключ приложения через `./vendor/bin/sail artisan key:generate`
